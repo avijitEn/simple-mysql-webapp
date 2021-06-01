@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    name: webapp-mysql
+  name: webapp-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: webapp-mysql
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: webapp-mysql
+    spec:
+      containers:
+      - image: avijitmajumder/simple-webapp
+        name: simple-webapp
+        env:
+          - name: DB_Host
+            value: mysql-service
+          - name: DB_User
+            value: root
+          - name: DB_Password
+            value: paswrd
+        ports:
+         - containerPort: 8080
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    name: webapp-mysql
+  name: web-service
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+    nodePort: 30081
+  selector:
+    name: webapp-mysql
+  type: nodePort
+status:
+  loadBalancer: {}
