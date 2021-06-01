@@ -47,6 +47,6 @@ spec:
     nodePort: 30081
   selector:
     name: webapp-mysql
-  type: nodePort
+  type: NodePort
 status:
   loadBalancer: {}
